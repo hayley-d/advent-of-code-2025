@@ -47,7 +47,7 @@ fn move_left(left: isize, dial: isize) -> isize {
             }
         }
 
-        return 99 - answer.abs();
+        return 100 - answer.abs();
     }
 
     return dial - left;
@@ -64,7 +64,7 @@ fn move_right(right: isize, dial: isize) -> isize {
             }
         }
 
-        return answer;
+        return answer - 1;
     }
 
     return dial + right;
