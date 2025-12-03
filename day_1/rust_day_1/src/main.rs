@@ -34,9 +34,15 @@ fn move_left(left: isize, dial: isize) -> isize {
         return dial - left;
     }
 
-    let temp = left % 100;
+    let new_left = left % 100;
 
-    return dial + (100 - temp);
+    if new_left <= dial {
+        return dial - new_left;
+    }
+
+    let movement_amount = new_left - dial;
+
+    return 100 - movement_amount;
 }
 
 fn move_right(right: isize, dial: isize) -> isize {
