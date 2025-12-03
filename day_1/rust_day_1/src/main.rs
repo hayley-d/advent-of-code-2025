@@ -26,46 +26,19 @@ fn main() {
     }
 
     let count = values.iter().filter(|&n| *n == 0).count();
-    println!("The password is {}", count);
-    for (index, value) in values.iter().enumerate() {
-        if *value == 0 {
-            println!("{}", index);
-        }
-    }
+    println!("Count: {}", count);
 }
 
 fn move_left(left: isize, dial: isize) -> isize {
-    let mut answer = dial - left;
-
-    if answer < 0 {
-        if answer < -99 {
-            loop {
-                answer += 99;
-                if answer > -99 {
-                    break;
-                }
-            }
-        }
-
-        return 100 - answer.abs();
+    if left <= dial {
+        return dial - left;
     }
 
-    return dial - left;
+    let temp = left % 100;
+
+    return dial + (100 - temp);
 }
 
 fn move_right(right: isize, dial: isize) -> isize {
-    let mut answer = dial + right;
-
-    if answer > 99 {
-        loop {
-            answer -= 99;
-            if answer < 99 {
-                break;
-            }
-        }
-
-        return answer - 1;
-    }
-
-    return dial + right;
+    return (dial + right) % 100;
 }
