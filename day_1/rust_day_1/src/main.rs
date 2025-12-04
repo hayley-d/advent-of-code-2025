@@ -39,6 +39,7 @@ fn move_left(counter: &mut isize, left: isize, dial: isize) -> isize {
 
     *counter += 1;
 
+    //something
     let new_left = left % 100;
 
     if new_left <= dial {
