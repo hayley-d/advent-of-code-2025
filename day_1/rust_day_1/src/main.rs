@@ -1,5 +1,5 @@
 fn main() {
-    let file_contents: String = std::fs::read_to_string("input.txt").expect("Unable to find file");
+    let file_contents: String = std::fs::read_to_string("test.txt").expect("Unable to find file");
 
     let mut counter: isize = 0;
     let mut dial: isize = 50;
@@ -37,7 +37,9 @@ fn move_left(counter: &mut isize, left: isize, dial: isize) -> isize {
         return dial - left;
     }
 
-    *counter += 1;
+    if left / 100 > 0 {
+        *counter += left / 100;
+    }
 
     //something
     let new_left = left % 100;
@@ -46,6 +48,8 @@ fn move_left(counter: &mut isize, left: isize, dial: isize) -> isize {
         return dial - new_left;
     }
 
+    *counter += 1;
+
     let movement_amount = new_left - dial;
 
     return 100 - movement_amount;
@@ -53,7 +57,13 @@ fn move_left(counter: &mut isize, left: isize, dial: isize) -> isize {
 
 fn move_right(counter: &mut isize, right: isize, dial: isize) -> isize {
     if right + dial > 100 {
-        *counter += 1;
+        if right / 100 > 0 {
+            *counter += right / 100;
+            println!("Added right/100: {}", right / 100);
+        } else {
+            *counter += 1;
+            println!("Added 1");
+        }
     }
 
     return (dial + right) % 100;
