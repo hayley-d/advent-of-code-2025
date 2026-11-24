@@ -1,0 +1,8 @@
+[package]
+name = "day_2_rust"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+dotenv = "0.15.0"
+fancy-regex = "0.20.2"
