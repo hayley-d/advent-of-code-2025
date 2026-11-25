@@ -82,6 +82,16 @@ impl Matrix {
 
         count
     }
+
+    pub fn convert_character(&mut self, target: char, replacement: char) {
+        for (x, row) in self.matrix.clone().into_iter().enumerate() {
+            for (y, character) in row.into_iter().enumerate() {
+                if character == target {
+                    self.matrix[x][y] = replacement;
+                }
+            }
+        }
+    }
 }
 
 fn main() {
@@ -95,9 +105,19 @@ fn main() {
     let file_content: String = std::fs::read_to_string(file_path).expect("unable to read file");
 
     let mut matrix: Matrix = parse_file(&file_content);
-    matrix.evaluate();
-    let character_count = matrix.count_character('x');
-    println!("Count: {character_count}");
+
+    let mut changes: usize = 1;
+    let mut total: usize = 0;
+
+    while changes != 0 {
+        matrix.evaluate();
+        changes = matrix.count_character('x');
+        total += changes;
+        //println!("{}", matrix.print());
+        matrix.convert_character('x', '.');
+    }
+
+    println!("Count: {total}");
 }
 
 pub fn parse_file(file_content: &str) -> Matrix {
