@@ -1,0 +1,55 @@
+use dotenv::dotenv;
+
+fn main() {
+    dotenv().ok();
+
+    let file_path = match std::env::var("FILE_PATH") {
+        Ok(file_path) => file_path,
+        Err(_) => panic!("Unable to find env value"),
+    };
+
+    let file_content = std::fs::read_to_string(file_path).expect("Unable to read file");
+
+    let mut banks: Vec<usize> = Vec::new();
+
+    for line in file_content.lines() {
+        let batteries: Vec<char> = line.chars().collect();
+        let mut maxes: Vec<(usize, char)> = Vec::new();
+
+        let mut prev_index = 0;
+        let mut current_max = 0;
+
+        while current_max < 12 {
+            let mut max = '0';
+            for (index, battery) in batteries.clone().into_iter().enumerate() {
+                if (prev_index == 0
+                    && current_max == 0
+                    && battery > max
+                    && index < batteries.len() - 1)
+                    || (index > prev_index
+                        && battery > max
+                        && index < batteries.len() - (11 - prev_index))
+                {
+                    max = battery;
+                    prev_index = index;
+                }
+            }
+
+            maxes.push((prev_index, max));
+
+            current_max += 1;
+        }
+
+        let string_jolts: String = maxes.into_iter().map(|max| max.1).collect();
+        let jolts: usize = string_jolts
+            .parse()
+            .expect("Unable to convert string to number");
+
+        println!("In {} jolts is {}", line, jolts);
+
+        banks.push(jolts);
+    }
+
+    let sum: usize = banks.into_iter().sum();
+    println!("Sum: {}", sum);
+}
